@@ -83,7 +83,7 @@ const BookManagement = () => {
           <h2 className="text-3xl font-bold text-gray-800 mb-4">📚 Book Management</h2>
 
           {/* Book Metadata Form */}
-          <div className="bg-white p-6 rounded-2xl shadow mb-8">
+          <div className="bg-f9f9f9 p-6 rounded-2xl shadow mb-8">
             <h3 className="text-xl font-semibold mb-4">Add New Book Metadata</h3>
             {error && <p className="text-red-600 mb-4">{error}</p>}
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4">

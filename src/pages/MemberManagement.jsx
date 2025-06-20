@@ -26,15 +26,17 @@ const MemberManagement = () => {
     setError("");
 
     const method = editingId ? "PUT" : "POST";
-    const url = editingId ? `/api/members/${editingId}` : "/api/members";
+    const url = editingId ? `/api/member/${editingId}` : "/api/member";
 
-    const res = await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
+    try {
+
+       const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
     });
 
-    if (!res.ok) {
+        if (!res.ok) {
       const data = await res.json();
       setError(data.message);
       return;
@@ -43,6 +45,12 @@ const MemberManagement = () => {
     await fetchMembers();
     setForm({ fullName: "", email: "", phone: "" });
     setEditingId(null);
+
+    } catch (error) {
+      console.error("Fetch failed: ", error);
+      setError("Server ureachable");
+    }
+
   };
 
   const handleEdit = (member) => {
