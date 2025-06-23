@@ -59,7 +59,7 @@ const MemberManagement = () => {
   };
 
   const handleInactivate = async (id) => {
-    const res = await fetch(`/api/members/${id}`, { method: "DELETE" });
+    const res = await fetch(`/api/members/${id}/inactivate`, { method: "PUT" });
     if (!res.ok) {
       const data = await res.json();
       alert(data.message);
