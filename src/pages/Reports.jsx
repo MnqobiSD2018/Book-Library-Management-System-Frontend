@@ -10,18 +10,27 @@ const Reports = () => {
 
   useEffect(() => {
     fetch("/api/reports/active-loans")
-      .then((res) => res.json())
-      .then(setActiveLoans);
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch active loans");
+        return res.json();
+      })
+      .then(setActiveLoans)
+      .catch((err) => console.error("Active Loans Error:", err));
 
     fetch("/api/members")
-      .then((res) => res.json())
-      .then(setMembers);
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch members");
+        return res.json();
+      })
+      .then(setMembers)
+      .catch((err) => console.error("Members Error:", err));
   }, []);
 
   const fetchMemberHistory = async (memberId) => {
     setSelectedMemberId(memberId);
     const res = await fetch(`/api/reports/member-history/${memberId}`);
     const data = await res.json();
+    console.log(data);
     setHistory(data);
   };
 

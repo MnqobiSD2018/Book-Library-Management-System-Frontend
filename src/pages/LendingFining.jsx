@@ -13,7 +13,7 @@ const LendingFining = () => {
     const [mRes, cRes, lRes] = await Promise.all([
       fetch("/api/members"),
       fetch("/api/copies"),
-      fetch("/api/loans"),
+      fetch("/api/loans/loans"),
     ]);
     setMembers(await mRes.json());
     setCopies(await cRes.json());
