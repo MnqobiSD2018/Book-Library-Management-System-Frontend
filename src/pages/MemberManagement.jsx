@@ -26,7 +26,7 @@ const MemberManagement = () => {
     setError("");
 
     const method = editingId ? "PUT" : "POST";
-    const url = editingId ? `/api/member/${editingId}` : "/api/member";
+    const url = editingId ? `/api/members/${editingId}` : "/api/members";
 
     try {
 

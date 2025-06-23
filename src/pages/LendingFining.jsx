@@ -18,6 +18,7 @@ const LendingFining = () => {
     setMembers(await mRes.json());
     setCopies(await cRes.json());
     setLoans(await lRes.json());
+
   };
 
   useEffect(() => {
@@ -27,6 +28,8 @@ const LendingFining = () => {
   const handleCheckout = async (e) => {
     e.preventDefault();
     setError("");
+
+    console.log("Submitting form:", form);
 
     const res = await fetch("/api/loans/checkout", {
       method: "POST",
@@ -87,7 +90,7 @@ const LendingFining = () => {
                 {copies
                   .filter((c) => c.status === "Available")
                   .map((c) => (
-                    <option key={c.copyId} value={c.copyId}>
+                    <option key={c.copyId} value={c._id}>
                       {c.copyId} - {c.bookTitle}
                     </option>
                   ))}
@@ -121,9 +124,9 @@ const LendingFining = () => {
                     key={l._id}
                     className={`border-b ${l.fine > 0 ? "bg-red-50" : ""}`}
                   >
-                    <td className="p-4">{l.memberName}</td>
-                    <td>{l.copyId}</td>
-                    <td>{l.bookTitle}</td>
+                    <td className="p-4">{l.memberId?.fullName}</td>
+                    <td>{l.copyId.copyId}</td>
+                    <td>{l.copyId?.bookTitle}</td>
                     <td>{new Date(l.dueDate).toLocaleDateString()}</td>
                     <td>{l.returned ? "Returned" : "Borrowed"}</td>
                     <td>
