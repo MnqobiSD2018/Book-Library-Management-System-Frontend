@@ -15,6 +15,7 @@ const BookManagement = () => {
   const [copyForm, setCopyForm] = useState({ copyId: "", status: "Available" });
   const [selectedBook, setSelectedBook] = useState(null);
   const [error, setError] = useState("");
+  const [copies, setCopies] = useState([]);
 
   const fetchBooks = async () => {
     const res = await fetch("/api/books");
@@ -22,56 +23,87 @@ const BookManagement = () => {
     setBooks(data);
   };
 
+  const fetchCopies = async () => {
+    const res = await fetch(`/api/copies`);
+    const data = await res.json();
+  };
+
   useEffect(() => {
     fetchBooks();
+    fetchCopies();
   }, []);
 
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    const res = await fetch("/api/books", {
+     const payload = {
+      ...form,
+      year: Number(form.year), // Convert year to number
+    };
+
+    console.log("Payload to send", payload);
+
+    try {
+      const res = await fetch("/api/books", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
+      body: JSON.stringify(payload),
+      });
 
-    if (!res.ok) {
-      const data = await res.json();
-      setError(data.message);
-      return;
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error  || "Failed to add book");
+        return;
+      }
+
+      await fetchBooks();
+      setForm({ isbn: "", title: "", author: "", publisher: "", year: "", genre: "" });
+      
+    } catch (error) {
+      console.error("Fetch failed: ", error);
+      setError("Server Unreachable")
+      
     }
-
-    await fetchBooks();
-    setForm({ isbn: "", title: "", author: "", publisher: "", year: "", genre: "" });
   };
 
-  const handleAddCopy = async (isbn) => {
-    const res = await fetch(`/api/books/${isbn}/copies`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(copyForm),
-    });
+  const handleAddCopy = async () => {
+    const res = await fetch(`/api/copies`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(copyForm), // e.g., { copyId: "B1001", status: "Available" }
+      });
 
-    if (!res.ok) {
-      const data = await res.json();
-      alert(data.message);
-      return;
-    }
+      if (!res.ok) {
+        const data = await res.json();
+        alert(data.message);
+        return;
+      }
 
-    await fetchBooks();
-    setCopyForm({ copyId: "", status: "Available" });
-    setSelectedBook(null);
+      await fetchCopies(); // reload book list or book copies
+      setCopyForm({ copyId: "", status: "Available" });
+      setSelectedBook(null);
   };
 
   const handleDelete = async (isbn) => {
-    const res = await fetch(`/api/books/${isbn}`, { method: "DELETE" });
-    const data = await res.json();
-    if (!res.ok) {
-      alert(data.message);
-    } else {
-      fetchBooks();
+
+    try {
+      
+      const res = await fetch(`/api/books/${isbn}`,
+         { method: "DELETE" });
+      const data = await res.json();
+      if (!res.ok) {
+        alert();
+      } else {
+        fetchBooks();
+      }
+
+    } catch (error) {
+      console.error("Failed to Delete: ", error);
+      setError("Server Unreachable");
     }
+    
   };
 
   return (
@@ -134,7 +166,7 @@ const BookManagement = () => {
                     <td>{b.year}</td>
                     <td>{b.genre}</td>
                     <td>
-                      {b.copies.map((c) => (
+                      {copies.map((c) => (
                         <div key={c.copyId}>
                           {c.copyId} ({c.status})
                         </div>

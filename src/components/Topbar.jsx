@@ -22,7 +22,7 @@ const Topbar = () => {
   }, []);
 
   return (
-   <div className="flex items-center justify-end w-full h-16 px-6 bg-white shadow-md">
+   <div className="flex items-center justify-center box-border w-screen h-16 px-6 bg-white shadow-md fixed top-0 left-64 z-10">
   {/* Alert Icon */}
   <button className="relative mr-4 text-gray-600 hover:text-blue-700">
     <Bell size={24} />
