@@ -8,6 +8,8 @@ const LendingFining = () => {
   const [loans, setLoans] = useState([]);
   const [form, setForm] = useState({ memberId: "", copyId: "" });
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
 
   const fetchAll = async () => {
     const [mRes, cRes, lRes] = await Promise.all([
@@ -48,10 +50,15 @@ const LendingFining = () => {
   };
 
   const handleReturn = async (loanId) => {
-    const res = await fetch(`/api/loans/return/${loanId}`, { method: "PUT" });
+    const res = await fetch(`/api/loans/loans/return/${loanId}`, { method: "PUT" });
     const data = await res.json();
-    if (!res.ok) return alert(data.message);
-    await fetchAll();
+
+    if (!res.ok) return alert(data.message); 
+    
+    setSuccess("Book returned successfully.");
+    // Filter out the returned loan instead of re-fetching all
+    setLoans((prev) => prev.filter((loan) => loan._id !== loanId));
+
   };
 
   return (
@@ -67,7 +74,7 @@ const LendingFining = () => {
           {/* Checkout Form */}
           <div className="bg-white p-6 rounded-2xl shadow mb-8">
             <h3 className="text-xl font-semibold mb-4">Checkout Book</h3>
-            {error && <p className="text-red-600 mb-4">{error}</p>}
+            {error && <p className="text-red-600 mb-4">{error || success}</p>}
             <form onSubmit={handleCheckout} className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <select
                 value={form.memberId}
