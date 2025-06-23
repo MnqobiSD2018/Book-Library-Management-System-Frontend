@@ -24,8 +24,13 @@ const BookManagement = () => {
   };
 
   const fetchCopies = async () => {
-    const res = await fetch(`/api/copies`);
-    const data = await res.json();
+    try {
+      const res = await fetch(`/api/copies/`);
+      const data = await res.json();
+      setCopies(data);
+    } catch (err) {
+      console.error("Failed to fetch available copies", err);
+    }
   };
 
   useEffect(() => {
@@ -69,17 +74,30 @@ const BookManagement = () => {
   };
 
   const handleAddCopy = async () => {
-    const res = await fetch(`/api/copies`, {
+    if (!selectedBook) return alert("No book selected");
+
+    const payload = {
+    ...copyForm,
+    isbn: selectedBook.isbn, 
+  };
+
+  console.log("Payload to send", payload);
+
+    const res = await fetch(`/api/copies/${selectedBook.isbn}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(copyForm), // e.g., { copyId: "B1001", status: "Available" }
+        body: JSON.stringify(payload), 
       });
+
+      console.log(payload);
 
       if (!res.ok) {
         const data = await res.json();
-        alert(data.message);
+        alert(data.message || "Failed to add Copy");
         return;
-      }
+      } else { 
+      alert("Copy Successfully added");
+    }
 
       await fetchCopies(); // reload book list or book copies
       setCopyForm({ copyId: "", status: "Available" });
@@ -166,11 +184,16 @@ const BookManagement = () => {
                     <td>{b.year}</td>
                     <td>{b.genre}</td>
                     <td>
-                      {copies.map((c) => (
-                        <div key={c.copyId}>
-                          {c.copyId} ({c.status})
-                        </div>
-                      ))}
+                      {copies.filter((c) => c.isbn === b.isbn).length === 0
+                        ? <span className="text-gray-400">No available copies</span>
+                        : copies
+                            .filter((c) => c.isbn === b.isbn)
+                            .map((c) => (
+                              <div key={c.copyId}>
+                                {c.copyId} ({c.status})
+                              </div>
+                            ))
+                      }
                     </td>
                     <td className="space-y-1">
                       <button
