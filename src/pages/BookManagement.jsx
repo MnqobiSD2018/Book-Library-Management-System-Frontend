@@ -107,12 +107,12 @@ const BookManagement = () => {
   const handleDelete = async (isbn) => {
 
     try {
-      
       const res = await fetch(`/api/books/${isbn}`,
          { method: "DELETE" });
-      const data = await res.json();
       if (!res.ok) {
-        alert();
+        const data = await res.json();
+        setError(data.message || "Failed to delete book");
+        return;
       } else {
         fetchBooks();
       }
@@ -135,7 +135,7 @@ const BookManagement = () => {
           {/* Book Metadata Form */}
           <div className="bg-f9f9f9 p-6 rounded-2xl shadow mb-8">
             <h3 className="text-xl font-semibold mb-4">Add New Book Metadata</h3>
-            {error && <p className="text-red-600 mb-4">{error}</p>}
+            
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {Object.keys(form).map((key) => (
                 <input
@@ -161,6 +161,7 @@ const BookManagement = () => {
 
           {/* Book List */}
           <div className="overflow-x-auto bg-white rounded-2xl shadow">
+            {error && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">{error}</div>}
             <table className="min-w-full text-sm text-left">
               <thead className="bg-blue-100 text-gray-800 text-base">
                 <tr>
