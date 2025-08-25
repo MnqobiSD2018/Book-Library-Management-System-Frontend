@@ -36,7 +36,14 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-blue-200 to-blue-300">
+    <>
+      <div class="w-full bg-red-600 text-white text-center py-2 fixed top-0 left-0 z-50">
+      🚨 This is just a frontend website with no backend download and run the full project from github 
+      <a href="https://github.com/MnqobiSD2018/Book-Library-Management-System-BF"> <u>Here</u></a>
+    </div>
+
+
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-blue-200 to-blue-300">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold text-center text-blue-700 mb-6">Librarian Login</h2>
 
@@ -87,6 +94,9 @@ const Login = () => {
         </p>
       </div>
     </div>
+  
+    </>  
+    
   );
 };
 

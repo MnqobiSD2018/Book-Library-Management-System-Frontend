@@ -7,7 +7,14 @@ import { BookOpenIcon, UserGroupIcon, ShieldCheckIcon, DocumentCheckIcon } from 
 const Landing = () => {
   return (
     <div className="relative min-h-screen font-sans bg-gradient-to-br from-blue-100 via-white to-blue-50 overflow-x-hidden">
-      {/* Animated Gradient or Shape Overlay */}
+      <div class="w-full bg-red-600 text-white text-center py-2 fixed top-0 left-0 z-50">
+      🚨 This is just a frontend website with no backend download and run the full project from github 
+      <a href="https://github.com/MnqobiSD2018/Book-Library-Management-System-BF"> <u>Here</u></a>
+    </div>
+
+
+      <div class="pt-12">
+           {/* Animated Gradient or Shape Overlay */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="absolute -top-32 -left-32 w-96 h-96 bg-blue-200 rounded-full opacity-30 blur-3xl animate-pulse" />
         <div className="absolute bottom-0 right-0 w-80 h-80 bg-blue-400 rounded-full opacity-20 blur-2xl animate-pulse" />
@@ -95,8 +102,9 @@ const Landing = () => {
         </div>
         <div className="w-full h-1 bg-gradient-to-r from-blue-200 via-blue-100 to-white mb-2" />
         © {new Date().getFullYear()} Book Library Management System. Built for the Full-Stack Coding Challenge.
-      </footer>
-    </div>
+      </footer>        
+      </div>
+     </div>
   );
 };
 

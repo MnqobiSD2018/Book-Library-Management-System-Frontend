@@ -24,7 +24,7 @@ const Sidebar = () => {
   return (
     <div className="w-64 h-screen bg-white text-grey-50 fixed top-0 left-0 shadow-md flex flex-col justify-between">
       <div className="p-2">
-        <h2 className="text-2xl font-bold mb-8 flex items-start justify-center gap-2 pt-7 pr-3"> 
+        <h2 className="text-2xl font-bold mb-8 flex items-start justify-center gap-2 pt-11 pr-3"> 
           <img src={logo} alt="logo" className="h-8"/>Library System
         </h2>
         <nav className="space-y-2">

@@ -62,6 +62,13 @@ const LendingFining = () => {
   };
 
   return (
+    <>
+      <div class="w-full bg-red-600 text-white text-center py-2 fixed top-0 left-0 z-50">
+      🚨 This is just a frontend website with no backend download and run the full project from github 
+      <a href="https://github.com/MnqobiSD2018/Book-Library-Management-System-BF"> <u>Here</u></a>
+    </div>
+
+
     <div className="flex">
       <Sidebar />
       <div className="ml-64 w-full min-h-screen bg-gray-50 pt-16 px-4 sm:px-10">
@@ -165,6 +172,9 @@ const LendingFining = () => {
         </div>
       </div>
     </div>
+
+    </>  
+  
   );
 };
 
